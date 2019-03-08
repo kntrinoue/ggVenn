@@ -10,16 +10,19 @@ Example:
 #two items
 
 ggVenn(list(A = 1:150, B = 121:170))
+
 x <- venn.overlaplist(list(A = 1:150, B = 121:170))
 
 #three items
 
 ggVenn(list(A = 1:150, B = 121:170, C = 101:200))
+
 x <- venn.overlaplist(list(A = 1:150, B = 121:170, C = 101:200))
 
 #four items
 
 ggVenn(list(A = 1:150, B = 121:170, C = 101:200, D = 150:250))
+
 x <- venn.overlaplist(list(A = 1:150, B = 121:170, C = 101:200, D = 150:250))
 
 #five items
