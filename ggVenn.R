@@ -1,4 +1,4 @@
-### ggVenn 
+#ggVenn 
 
 ggVenn <- function(x, na = "stop", label.size=5, cex=5, fill=NULL, alpha=0.2, ...){
   
@@ -81,6 +81,7 @@ ggVenn <- function(x, na = "stop", label.size=5, cex=5, fill=NULL, alpha=0.2, ..
   return(g)
 }
 
+
 ### venn.overlaplist
 # return matrix of element names in overlap
 # VennDiagram::calculate.overlap(x) returns names in the number in venn diagram
@@ -107,178 +108,555 @@ venn.overlaplist <- function(x, fileName=NA){
   }
   el <- unique(el)
   
-  addData <- function(i, ol, range, no, addol){
+  addData <- function(i, overlapDup, range, no, addol){
     if(no==0){
-      return (ol)
+      return (overlapDup)
     }else{
-      ol[range,i] <- addol
+      overlapDup[range,i] <- addol
     }
-    return (ol)
+    return (overlapDup)
   }
   
-  ol<-matrix(NA,nrow=length(el),ncol=length(overlap))
+  overlapDup<-matrix(NA,nrow=length(el),ncol=length(overlap))
   for(i in 1:length(overlap)){
-    ol <- addData(i, ol, 1:no[i], no[i], as.character(overlap[[i]])) # overlap in all category
+    overlapDup <- addData(i, overlapDup, 1:no[i], no[i], as.character(overlap[[i]])) # overlap in all category
     if(2<=i){
       addi <- 1; s <- (no[i]+1); e <- (no[i]+no[addi])
-      ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+      overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
     }
     
     if(length(x)==3){
       if(i==5){ # 1
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==6){
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==7){
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
     }else if(length(x)==4){
       if(i==6){ # 2
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==7){
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==8){
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==9){
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 5; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==10){
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 5; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==11){
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 5; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==12){ # 1
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 6; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 7; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 8; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==13){
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 5; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 6; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 9; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 10; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==14){
         addi <- 2; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 5; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
-        addi <- 6; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 9; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 11; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
       else if(i==15){
         addi <- 3; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 4; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 5; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 8; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 10; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
         addi <- 11; s <- e+1; e <- s-1+no[addi]
-        ol <- addData(i, ol, s:e, no[addi], ol[1:no[addi], addi])
-        o1 <- 3; o2 <- 4; o3 <- 5; o4 <- 8; o5 <- 10; o6 <- 11;
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
       }
     }else if(length(x)==5){
-      
+      if(i==7){ # 3
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==8){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==9){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==10){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==11){
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==12){
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==13){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==14){
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==15){
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==16){
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==17){#2
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 14; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 16; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==18){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 8; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 13; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==19){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 8; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 9; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 16; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==20){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 9; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 10; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 15; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==21){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 8; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 10; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 11; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==22){
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 11; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 12; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==23){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 10; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 12; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 13; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==24){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 9; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 13; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 14; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==25){
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 12; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 14; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 15; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==26){
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 11; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 15; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 16; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==27){ # 1
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 11; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 12; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 14; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 15; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 16; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 17; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 22; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 25; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 26; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==28){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 8; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 9; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 13; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 14; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 16; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 17; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 18; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 19; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 24; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==29){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 8; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 9; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 10; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 11; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 15; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 16; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 19; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 20; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 21; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 26; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==30){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 6; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 7; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 8; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 10; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 11; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 12; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 13; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 18; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 21; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 22; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 23; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
+      else if(i==31){
+        addi <- 2; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 3; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 4; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 5; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 9; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 10; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 12; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 13; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 14; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 15; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 20; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 23; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 24; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+        addi <- 25; s <- e+1; e <- s-1+no[addi]
+        overlapDup <- addData(i, overlapDup, s:e, no[addi], overlapDup[1:no[addi], addi])
+      }
     }
 
     
   }
   
   if(length(x)==2){
-    colnames(ol) <- c(paste0(names(x)[1],"&",names(x)[2]),
+    colnames(overlapDup) <- c(paste0(names(x)[1],"&",names(x)[2]),
                       names(x)[1], names(x)[2])
+    names(overlap) <- c(paste0(names(x)[1],"&",names(x)[2]),
+                          names(x)[1], names(x)[2])
   }else if(length(x)==3){
-    colnames(ol) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),
+    colnames(overlapDup) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),
+                      paste0(names(x)[1],"&",names(x)[2]),paste0(names(x)[1],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[3]),
+                      names(x)[1], names(x)[2], names(x)[3])
+    names(overlap) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),
                       paste0(names(x)[1],"&",names(x)[2]),paste0(names(x)[1],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[3]),
                       names(x)[1], names(x)[2], names(x)[3])
   }else if(length(x)==4){
-    colnames(ol) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4]),
+    colnames(overlapDup) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[2]),paste0(names(x)[1],"&",names(x)[3]),paste0(names(x)[1],"&",names(x)[4]),
+                      paste0(names(x)[2],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[4]),paste0(names(x)[3],"&",names(x)[4]),
+                      names(x)[1], names(x)[2], names(x)[3], names(x)[4])
+    names(overlap) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4]),
                       paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4]),
                       paste0(names(x)[1],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),
                       paste0(names(x)[1],"&",names(x)[2]),paste0(names(x)[1],"&",names(x)[3]),paste0(names(x)[1],"&",names(x)[4]),
                       paste0(names(x)[2],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[4]),paste0(names(x)[3],"&",names(x)[4]),
                       names(x)[1], names(x)[2], names(x)[3], names(x)[4])
   }else if(length(x)==5){
-    colnames(ol) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
+    colnames(overlapDup) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
                       paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4]),
                       paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[5]),
                       paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4],"&",names(x)[5]),
                       paste0(names(x)[1],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
                       paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
-                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4]),
-                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[5]),paste0(names(x)[1],"&",names(x)[4],"&",names(x)[5]),
-                      paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[2],"&",names(x)[3],"&",names(x)[5]),
-                      paste0(names(x)[2],"&",names(x)[4],"&",names(x)[5]),paste0(names(x)[3],"&",names(x)[4],"&",names(x)[5]),
-                      paste0(names(x)[1],"&",names(x)[2]),paste0(names(x)[1],"&",names(x)[3]),paste0(names(x)[1],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[5]),
-                      paste0(names(x)[2],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[4]),paste0(names(x)[2],"&",names(x)[5]),
-                      paste0(names(x)[3],"&",names(x)[4]),paste0(names(x)[3],"&",names(x)[5]),paste0(names(x)[4],"&",names(x)[5]),
-                      names(x)[1], names(x)[2], names(x)[3], names(x)[4], names(x)[5])
+                      paste0(names(x)[2],"&",names(x)[4],"&",names(x)[5]),paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),
+                      paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[3],"&",names(x)[5]),paste0(names(x)[3],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[4],"&",names(x)[5]),paste0(names(x)[2],"&",names(x)[4]),paste0(names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[3]),
+                      paste0(names(x)[2],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[5]),paste0(names(x)[1],"&",names(x)[2]),
+                      paste0(names(x)[1],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[5]),paste0(names(x)[3],"&",names(x)[5]),
+                      names(x)[5], names(x)[4], names(x)[3], names(x)[2], names(x)[1])
+    names(overlap) <- c(paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[2],"&",names(x)[4],"&",names(x)[5]),paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[3]),
+                      paste0(names(x)[2],"&",names(x)[3],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[2],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[2],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[1],"&",names(x)[3],"&",names(x)[5]),paste0(names(x)[3],"&",names(x)[4],"&",names(x)[5]),
+                      paste0(names(x)[4],"&",names(x)[5]),paste0(names(x)[2],"&",names(x)[4]),paste0(names(x)[3],"&",names(x)[4]),
+                      paste0(names(x)[1],"&",names(x)[3]),
+                      paste0(names(x)[2],"&",names(x)[3]),paste0(names(x)[2],"&",names(x)[5]),paste0(names(x)[1],"&",names(x)[2]),
+                      paste0(names(x)[1],"&",names(x)[4]),paste0(names(x)[1],"&",names(x)[5]),paste0(names(x)[3],"&",names(x)[5]),
+                      names(x)[5], names(x)[4], names(x)[3], names(x)[2], names(x)[1])
   }
   
   if(!is.na(fileName)){
-    write.table(ol, file=fileName)
+    write.table(overlapDup, file=fileName)
   }
   
-  return (ol) # matrix
+  return (list(overlapDup=overlapDup,overlap=overlap)) # matrix
 
 }
