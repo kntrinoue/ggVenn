@@ -2,7 +2,7 @@
 Venn diagram in ggplot format.
 ggVenn is a wrapper of VennDiagram.
 ggVenn can be used two to five items as same as VennDiagram.
-You can get the overlapped list using a function venn.overlaplist. Although VennDiagram::calculate.overlap(x) returns names within the number in venn diagram, venn.overlaplist(x) returns every names in the overlaps.
+You can get the overlapped list using a function venn.overlaplist. Although VennDiagram::calculate.overlap(x) returns names within the number in venn diagram, venn.overlaplist(x) returns data frame (overlapDup) of every names with duplication in the overlaps and list (overlap) with list names outputted by VennDiagram::calculate.overlap(x).
 
 
 Example:
